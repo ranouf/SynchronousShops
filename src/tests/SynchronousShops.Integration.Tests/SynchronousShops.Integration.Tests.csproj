@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<PlatformTarget>x64</PlatformTarget>
+		<IsPackable>false</IsPackable>
+		<IsTestProject>true</IsTestProject>
+		<NoWarn>NU1603</NoWarn>
+		<DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.11" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
+		<PackageReference Include="xunit" Version="2.4.2" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="coverlet.collector" Version="3.2.0">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Constants\SynchronousShops.Libraries.Constants.csproj" />
+		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Testing.Logging.InMemory\SynchronousShops.Libraries.Testing.Logging.InMemory.csproj" />
+		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Testing.Logging.Xunit\SynchronousShops.Libraries.Testing.Logging.Xunit.csproj" />
+		<ProjectReference Include="..\..\domains\SynchronousShops.Domains.Infrastructure\SynchronousShops.Domains.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\servers\SynchronousShops.Servers.API\SynchronousShops.Servers.API.csproj" />
+	</ItemGroup>
+
+</Project>

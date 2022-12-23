@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<NoWarn>NU1603</NoWarn>
+		<DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Autofac" Version="6.5.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Entities\SynchronousShops.Libraries.Entities.csproj" />
+	  <ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.EntityFramework\SynchronousShops.Libraries.EntityFramework.csproj" />
+	</ItemGroup>
+
+</Project>
