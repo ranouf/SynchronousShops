@@ -44,7 +44,6 @@ namespace SynchronousShops.Integration.Tests
                 .ConfigureServices(services =>
                 {
                     services.Remove<DbContextOptions<SynchronousShopsDbContext>>();
-                    services.Remove<DbContextOptions<SynchronousShopsDbContext>>();
                     services.AddDbContext<SynchronousShopsDbContext>(options =>
                     {
                         options.UseInMemoryDatabase("SK.Sample");
