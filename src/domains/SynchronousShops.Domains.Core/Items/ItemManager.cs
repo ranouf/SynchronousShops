@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SynchronousShops.Domains.Core.Items.Entities;
 using SynchronousShops.Libraries.EntityFramework.Repositories;
 using SynchronousShops.Libraries.EntityFramework.UnitOfWork;
-using SynchronousShops.Domains.Core.Items.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +26,7 @@ namespace SynchronousShops.Domains.Core.Items
             _logger = logger;
         }
 
-        public async Task<IList<Item>> GetItems(string filter)
+        public async Task<IList<Item>> GetAllAsync(string filter)
         {
             var query = _itemRepository.GetAll();
             if (!string.IsNullOrEmpty(filter))
@@ -54,7 +54,7 @@ namespace SynchronousShops.Domains.Core.Items
             return result;
         }
 
-        public async Task<Item> CreateItemAsync(Item item)
+        public async Task<Item> CreateAsync(Item item)
         {
             var result = _itemRepository.Insert(item);
             await _unitOfWork.SaveChangesAsync();
@@ -62,7 +62,7 @@ namespace SynchronousShops.Domains.Core.Items
             return result;
         }
 
-        public async Task<Item> UpdateItemAsync(Item item)
+        public async Task<Item> UpdateAsync(Item item)
         {
             var result = _itemRepository.Update(item);
             await _unitOfWork.SaveChangesAsync();
@@ -70,7 +70,7 @@ namespace SynchronousShops.Domains.Core.Items
             return result;
         }
 
-        public async Task DeleteItemAsync(Item item)
+        public async Task DeleteAsync(Item item)
         {
             _itemRepository.Delete(item);
             await _unitOfWork.SaveChangesAsync();

@@ -3,27 +3,85 @@
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<TargetFramework>net6.0</TargetFramework>
+		<RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
 		<PlatformTarget>x64</PlatformTarget>
+		<LangVersion>latest</LangVersion>
 		<NoWarn>NU1603</NoWarn>
-		<DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<InternalsVisibleTo Include="SynchronousShops.Integration.Tests" />
+		<InternalsVisibleTo Include="ApiWithAuthentication.Tests" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<Content Include="Assets\EmailTemplates\InviteUser.html">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Assets\EmailTemplates\ConfirmEmail.html">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Assets\EmailTemplates\RegisterUser.html">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Assets\EmailTemplates\PasswordForgotten.html">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<EmbeddedResource Include="Assets\SwaggerIndex.html">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Assets\HealthChecks.css">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AspNetCore.HealthChecks.AzureStorage" Version="6.1.1" />
+		<PackageReference Include="AspNetCore.HealthChecks.UI" Version="6.0.5" />
+		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.5" />
+		<PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage.Net6" Version="1.0.1" />
 		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.11" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+		<PackageReference Include="JsonSubTypes" Version="2.0.1" />
+		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.11" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="6.0.11" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.11">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.11" />
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="6.0.11" />
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="6.0.11" />
+		<PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="6.0.0" />
+		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
+		<PackageReference Include="MiniProfiler.EntityFrameworkCore" Version="4.2.22" />
+		<PackageReference Include="NSwag.AspNetCore" Version="13.18.0" />
+		<PackageReference Include="NSwag.MSBuild" Version="13.18.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.4.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.4.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="6.4.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Constants\SynchronousShops.Libraries.Constants.csproj" />
 		<ProjectReference Include="..\..\domains\SynchronousShops.Domains.Core\SynchronousShops.Domains.Core.csproj" />
 		<ProjectReference Include="..\..\domains\SynchronousShops.Domains.Infrastructure\SynchronousShops.Domains.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Authentication\SynchronousShops.Libraries.Authentication.csproj" />
+		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Constants\SynchronousShops.Libraries.Constants.csproj" />
+		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Entities\SynchronousShops.Libraries.Entities.csproj" />
+		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Extensions\SynchronousShops.Libraries.Extensions.csproj" />
+		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Session\SynchronousShops.Libraries.Session.csproj" />
 		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Settings\SynchronousShops.Libraries.Settings.csproj" />
 	</ItemGroup>
 
+	<!--<PropertyGroup> 
+		 <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent> 
+	 </PropertyGroup> 
+	
+	 <Target Name="NSwag" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug' "> 
+		 <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net60) run ../../api.config.nswag /runtime:Net60 /variables:Configuration=$(Configuration)" /> 
+	 </Target>-->
 </Project>

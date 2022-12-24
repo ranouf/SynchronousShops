@@ -5,7 +5,6 @@
 		<RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
 		<LangVersion>latest</LangVersion>
 		<NoWarn>NU1603</NoWarn>
-		<DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
 	</PropertyGroup>
 
 	<ItemGroup>

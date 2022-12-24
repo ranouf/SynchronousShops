@@ -11,7 +11,7 @@ namespace SynchronousShops.Servers.API.Filters
         {
             if (!context.ModelState.IsValid)
             {
-                throw new ArgumentException(context.ModelState.First().Value.Errors.First().ErrorMessage);
+                throw new Exception(context.ModelState.First().Value.Errors.First().ErrorMessage);
             }
         }
     }

@@ -1,21 +1,26 @@
-﻿namespace SynchronousShops.Servers.API.Controllers.Dtos.Entities
+﻿using System;
+
+namespace SynchronousShops.Servers.API.Controllers.Dtos.Entities
 {
     public interface ICreationAuditedDto
     {
+        DateTimeOffset CreatedAt { get; set; }
         string CreatedBy { get; set; }
     }
 
-    public interface IUpdateAuditedDto
+    public interface IModificationAuditedDto
     {
-        string UpdatedBy { get; set; }
+        DateTimeOffset? ModifiedAt { get; set; }
+        string ModifiedBy { get; set; }
     }
 
-    public interface IAuditedDto : ICreationAuditedDto, IUpdateAuditedDto
+    public interface IAuditedDto : ICreationAuditedDto, IModificationAuditedDto
     {
     }
 
-    public interface IDeleteAuditedDto
+    public interface IDeletionAuditedDto
     {
+        DateTimeOffset? DeletedAt { get; set; }
         string DeletedBy { get; set; }
     }
 }

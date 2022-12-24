@@ -6,8 +6,11 @@
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
 		<NoWarn>NU1603</NoWarn>
-		<DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<Content Include="**\*.json" Exclude="bin\**\*;obj\**\*" CopyToOutputDirectory="Always" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.11" />

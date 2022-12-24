@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using SynchronousShops.Libraries.SMTP;
 using System.Reflection;
 
 namespace SynchronousShops.Domains.Core
@@ -12,6 +13,7 @@ namespace SynchronousShops.Domains.Core
                    .Where(t => t.Name.EndsWith("Manager"))
                    .AsImplementedInterfaces()
                    .InstancePerLifetimeScope();
+            builder.RegisterModule<SmtpModule>();
         }
     }
 }

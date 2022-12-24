@@ -1,6 +1,7 @@
-﻿using AutoMapper;
-using SynchronousShops.Domains.Core.Items.Entities;
+﻿using SynchronousShops.Domains.Core.Items.Entities;
 using SynchronousShops.Servers.API.Controllers.Items.Dtos;
+using SynchronousShops.Servers.API.Extensions;
+using AutoMapper;
 
 namespace SynchronousShops.Servers.API.Controllers.Items
 {
@@ -8,7 +9,8 @@ namespace SynchronousShops.Servers.API.Controllers.Items
     {
         public ItemsProfile()
         {
-            CreateMap<Item, ItemDto>();
+            CreateMap<Item, ItemDto>()
+                .AddAuditedBy();
         }
     }
 }
