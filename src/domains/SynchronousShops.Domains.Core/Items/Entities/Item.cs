@@ -1,10 +1,12 @@
-﻿using SynchronousShops.Libraries.Entities;
+﻿using SynchronousShops.Domains.Core.Identity.Entities;
+using SynchronousShops.Libraries.Entities;
 
 namespace SynchronousShops.Domains.Core.Items.Entities
 {
-    public class Item : Entity, IEntity
+    public class Item : FullAuditedEntityOfTUserWithSoftDelete<User>
     {
         public string Name { get; private set; }
+
         public Item(string name)
         {
             Name = name;

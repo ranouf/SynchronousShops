@@ -1,6 +1,6 @@
 ﻿using SynchronousShops.Domains.Core.Items;
 using SynchronousShops.Domains.Core.Items.Entities;
-using SynchronousShops.Domains.Infrastructure.SQLServer;
+using SynchronousShops.Domains.Infrastructure.SqlServer;
 using Xunit.Abstractions;
 
 namespace SynchronousShops.Integration.Tests.Data
@@ -14,7 +14,7 @@ namespace SynchronousShops.Integration.Tests.Data
         public const string Item3 = "Item Sherbrooke";
 
         public TestItemDataBuilder(
-            SKSQLDbContext context,
+            SynchronousShopsDbContext context,
             IItemManager ItemManager,
             ITestOutputHelper output
         ) : base(context, output)
@@ -34,7 +34,7 @@ namespace SynchronousShops.Integration.Tests.Data
             for (int i = 0; i < items.Length; i++)
             {
                 var Item = items[i];
-                _itemManager.CreateItemAsync(Item).Wait();
+                _itemManager.CreateAsync(Item).Wait();
             }
             Output.WriteLine($"{items.Length} Items have been created.");
         }

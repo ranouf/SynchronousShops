@@ -10,6 +10,11 @@ using Xunit.Abstractions;
 
 namespace SynchronousShops.Integration.Tests.Extensions
 {
+    public enum Format
+    {
+        Json = 1,
+        FormData = 2,
+    }
     public static class HttpExtensions
     {
         public static async Task<T> ConvertToAsync<T>(this HttpResponseMessage response, ITestOutputHelper output)
@@ -124,6 +129,23 @@ namespace SynchronousShops.Integration.Tests.Extensions
             var builder = BuildPath(client, path);
             output.WriteLine($"METHOD PUT, url:'{builder.Uri.PathAndQuery}' dto:'{dto.ToJson()}'");
             return await client.PutAsync(builder.Uri.PathAndQuery, dto.ToStringContent());
+        }
+
+        public static async Task<HttpResponseMessage> PutAsync<T>(
+            this HttpClient client,
+            string path,
+            ITestOutputHelper output,
+            T dto,
+            Format format = Format.Json
+        )
+        {
+            var builder = BuildPath(client, path);
+            output.WriteLine($"METHOD PUT, url:'{builder.Uri.PathAndQuery}' dto:'{dto.ToJson()}'");
+            if (format == Format.Json)
+            {
+                return await client.PutAsync(builder.Uri.PathAndQuery, dto.ToStringContent());
+            }
+            return await client.PutAsync(builder.Uri.PathAndQuery, dto.ToFormData());
         }
 
         public static async Task<HttpResponseMessage> DeleteAsync<TPrimaryKey>(

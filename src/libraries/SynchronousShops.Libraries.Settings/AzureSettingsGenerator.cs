@@ -3,7 +3,6 @@ using Autofac.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using SynchronousShops.Libraries.Extensions;
-using SynchronousShops.Libraries.Extensions;
 using SynchronousShops.Libraries.Settings.Extensions;
 using System;
 using System.Collections.Generic;

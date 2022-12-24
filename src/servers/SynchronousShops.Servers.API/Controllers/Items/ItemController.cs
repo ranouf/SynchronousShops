@@ -1,10 +1,13 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using StackExchange.Profiling.Internal;
+using SynchronousShops.Domains.Core.Identity;
 using SynchronousShops.Domains.Core.Items;
 using SynchronousShops.Domains.Core.Items.Entities;
 using SynchronousShops.Libraries.Constants;
-using SynchronousShops.Libraries.Extensions;
+using SynchronousShops.Libraries.Session;
 using SynchronousShops.Servers.API.Controllers.Dtos;
 using SynchronousShops.Servers.API.Controllers.Items.Dtos;
 using System;
@@ -15,16 +18,19 @@ using System.Threading.Tasks;
 namespace SynchronousShops.Servers.API.Controllers.Items
 {
     [ApiController]
-    [Route(Api.V1.Items.Url)]
-    public class ItemController : BaseController
+    [Route(Api.V1.Item.Url)]
+    [Authorize]
+    public class ItemController : AuthentifiedBaseController
     {
         private readonly IItemManager _itemManager;
 
         public ItemController(
             IItemManager itemManager,
+            IUserSession session,
+            IUserManager userManager,
             IMapper mapper,
             ILogger<ItemController> logger
-        ) : base(mapper, logger)
+        ) : base(session, userManager, mapper, logger)
         {
             _itemManager = itemManager;
         }
@@ -51,7 +57,7 @@ namespace SynchronousShops.Servers.API.Controllers.Items
         public async Task<IActionResult> GetItemsAsync([FromQuery] FilterRequestDto dto)
         {
             Logger.LogInformation($"{nameof(GetItemsAsync)}, dto:{dto.ToJson()}.");
-            var result = await _itemManager.GetItems(
+            var result = await _itemManager.GetAllAsync(
                 dto.Filter
             );
             return new ObjectResult(Mapper.Map<IList<Item>, IList<ItemDto>>(result));
@@ -63,7 +69,7 @@ namespace SynchronousShops.Servers.API.Controllers.Items
         public async Task<IActionResult> CreateItemAsync([FromBody] UpsertItemRequest dto)
         {
             Logger.LogInformation($"{nameof(CreateItemAsync)}, dto:{dto.ToJson()}.");
-            var result = await _itemManager.CreateItemAsync(
+            var result = await _itemManager.CreateAsync(
                 dto.ToItem()
             );
             return new ObjectResult(Mapper.Map<Item, ItemDto>(result));
@@ -81,7 +87,7 @@ namespace SynchronousShops.Servers.API.Controllers.Items
             {
                 return NotFound();
             }
-            var result = await _itemManager.UpdateItemAsync(
+            var result = await _itemManager.UpdateAsync(
                 item.Update(
                     dto.Name
                 )
@@ -101,7 +107,7 @@ namespace SynchronousShops.Servers.API.Controllers.Items
             {
                 return NotFound();
             }
-            await _itemManager.DeleteItemAsync(
+            await _itemManager.DeleteAsync(
                 item
             );
             return Ok();

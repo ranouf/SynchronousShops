@@ -1,6 +1,6 @@
 ﻿using Autofac;
+using SynchronousShops.Domains.Infrastructure.SqlServer;
 using SynchronousShops.Libraries.EntityFramework.UnitOfWork;
-using SynchronousShops.Domains.Infrastructure.SQLServer;
 using System.Reflection;
 
 namespace SynchronousShops.Domains.Infrastructure
@@ -10,10 +10,11 @@ namespace SynchronousShops.Domains.Infrastructure
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterAssemblyTypes(Assembly.GetEntryAssembly())
-                .Where(t => t.Name.EndsWith("Service"))
-                .AsImplementedInterfaces();
+                   .Where(t => t.Name.EndsWith("Service"))
+                   .AsImplementedInterfaces();
 
-            builder.RegisterType<UnitOfWork<SKSQLDbContext>>().As<IUnitOfWork>().InstancePerLifetimeScope();
+            //builder.RegisterType<AllInOneDbContext>().As<DbContext>().InstancePerLifetimeScope();
+            builder.RegisterType<UnitOfWork<SynchronousShopsDbContext>>().As<IUnitOfWork>().InstancePerLifetimeScope();
         }
     }
 }

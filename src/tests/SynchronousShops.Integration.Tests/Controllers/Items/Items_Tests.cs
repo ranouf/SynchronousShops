@@ -1,5 +1,6 @@
 ﻿using SynchronousShops.Integration.Tests.Extensions;
 using SynchronousShops.Servers.API.Controllers.Dtos;
+using SynchronousShops.Servers.API.Controllers.Identity.Dtos;
 using SynchronousShops.Servers.API.Controllers.Items.Dtos;
 using System.Collections.Generic;
 using System.Net;
@@ -22,8 +23,11 @@ namespace SynchronousShops.Integration.Tests.Controllers.Items
         [Fact]
         public async Task Should_List_Items()
         {
+            // As Admin
+            await Client.AuthenticateAsAdministratorAsync(Output);
+
             var response = await Client.GetAsync(
-                Libraries.Constants.Api.V1.Items.Url,
+                Libraries.Constants.Api.V1.Item.Url,
                 Output,
                 new FilterRequestDto()
             );
@@ -35,19 +39,26 @@ namespace SynchronousShops.Integration.Tests.Controllers.Items
         }
 
         [Fact]
-        public async Task Should_Create_Then_Update_And_Delete_Item()
+        public async Task Should_Create_Update_And_Delete_Item_As_Administrator_Then_Get_Read_Delete_Notifications_As_Manager()
         {
-            // Create Task
+            // As Manager
+            var response = await Client.AuthenticateAsManagerAsync(Output);
+            var loginResponseDto = await response.ConvertToAsync<LoginResponseDto>(Output);
+
+            // As Admin
+            await Client.AuthenticateAsAdministratorAsync(Output);
+
+            // Create Item
             var insertItemRequest = new UpsertItemRequest()
             {
                 Name = NewItem
             };
 
-            var response = await Client.PostAsync(
-                Libraries.Constants.Api.V1.Items.Url,
-                Output,
-                insertItemRequest
-            );
+            response = await Client.PostAsync(
+                 Libraries.Constants.Api.V1.Item.Url,
+                 Output,
+                 insertItemRequest
+             );
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             var newItem = await response.ConvertToAsync<ItemDto>(Output);
@@ -60,7 +71,7 @@ namespace SynchronousShops.Integration.Tests.Controllers.Items
             };
 
             response = await Client.PutByIdAsync(
-                Libraries.Constants.Api.V1.Items.Url,
+                Libraries.Constants.Api.V1.Item.Url,
                 Output,
                 newItem.Id,
                 updateItemRequest
@@ -70,10 +81,9 @@ namespace SynchronousShops.Integration.Tests.Controllers.Items
             var editedItem = await response.ConvertToAsync<ItemDto>(Output);
             Assert.Equal(EditedItem, editedItem.Name);
 
-
             // Delete Item
             response = await Client.DeleteByIdAsync(
-                Libraries.Constants.Api.V1.Items.Url,
+                Libraries.Constants.Api.V1.Item.Url,
                 Output,
                 newItem.Id
             );
