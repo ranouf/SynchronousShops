@@ -158,7 +158,6 @@ builder.Services.AddHealthChecksUI(setupSettings: options =>
 
 builder.Services.AddHealthChecks()
     .AddCheck<SmtpHealthCheck>("SMTP")
-    .AddAzureBlobStorage(builder.Configuration["AzureStorage:ConnectionString"])
     .AddCheckSettings<IdentitySettings>()
     .AddCheckSettings<SmtpSettings>()
     .AddDbContextCheck<SynchronousShopsDbContext>("Default");
@@ -169,7 +168,7 @@ builder.Services.AddMiniProfiler(options =>
 {
     options.PopupRenderPosition = RenderPosition.Left;
     options.RouteBasePath = "/profiler";
-    options.ColorScheme = StackExchange.Profiling.ColorScheme.Auto;
+    options.ColorScheme = ColorScheme.Auto;
 });
 
 // Automapper
@@ -212,16 +211,6 @@ app.UseSwaggerUi3(c =>
     c.Path = "/api-endpoints";
     c.DocumentPath = "/api-endpoints/{documentName}/swagger.json";
 });
-//app.UseSwaggerUI(c =>
-//{
-//    c.RoutePrefix = "api-endpoints";
-//    c.SwaggerEndpoint("v1/swagger.json", $"{Constants.Project.Name} V1");
-//    c.DisplayRequestDuration();
-//    c.DefaultModelsExpandDepth(-1); 
-//    c.DocExpansion(DocExpansion.None);
-//    c.IndexStream = () => Assembly.GetEntryAssembly().GetManifestResourceStream($"{Constants.Project.Name}.Servers.API.Assets.SwaggerIndex.html");
-
-//});
 
 // Profiling, url to see last profile check: http://localhost:XXXX/profiler/results
 app.UseMiniProfiler();
@@ -236,7 +225,6 @@ app.UseHealthChecks("/healthchecks", new HealthCheckOptions()
 app.UseHealthChecksUI(config =>
 {
     config.UIPath = "/api-healthchecks";
-    config.AddCustomStylesheet("Assets\\HealthChecks.css");
 });
 
 app.UseEndpoints(endpoints =>

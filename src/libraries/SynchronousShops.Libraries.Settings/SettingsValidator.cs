@@ -1,10 +1,9 @@
-﻿using SynchronousShops.Libraries.Extensions;
-using Autofac;
+﻿using Autofac;
 using Autofac.Core;
 using Microsoft.Extensions.Options;
+using SynchronousShops.Libraries.Extensions;
 using System;
 using System.Linq;
-using SynchronousShops.Libraries.Extensions;
 
 namespace SynchronousShops.Libraries.Settings
 {
