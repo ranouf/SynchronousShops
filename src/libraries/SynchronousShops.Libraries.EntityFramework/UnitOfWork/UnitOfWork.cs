@@ -1,12 +1,11 @@
-using SynchronousShops.Libraries.EntityFramework.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using SynchronousShops.Libraries.Entities;
+using SynchronousShops.Libraries.EntityFramework.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SynchronousShops.Libraries.Entities;
-using SynchronousShops.Libraries.EntityFramework.Repositories;
 
 namespace SynchronousShops.Libraries.EntityFramework.UnitOfWork
 {

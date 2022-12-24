@@ -169,7 +169,7 @@ builder.Services.AddMiniProfiler(options =>
 {
     options.PopupRenderPosition = RenderPosition.Left;
     options.RouteBasePath = "/profiler";
-    options.ColorScheme = StackExchange.Profiling.ColorScheme.Auto;
+    options.ColorScheme = ColorScheme.Auto;
 });
 
 // Automapper
@@ -236,7 +236,6 @@ app.UseHealthChecks("/healthchecks", new HealthCheckOptions()
 app.UseHealthChecksUI(config =>
 {
     config.UIPath = "/api-healthchecks";
-    config.AddCustomStylesheet("Assets\\HealthChecks.css");
 });
 
 app.UseEndpoints(endpoints =>
