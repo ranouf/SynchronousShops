@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using SynchronousShops.Libraries.Session;
+using SynchronousShops.Domains.Core.Session;
 using SynchronousShops.Servers.API.Filters.Dtos;
 using System;
 using System.Collections.Generic;
@@ -40,14 +40,14 @@ namespace SynchronousShops.Servers.API.Filters
             {
                 _logger.LogWarning(context.Exception.Message, properties);
 
-                apiError = new ApiErrorDto("Not found");
+                apiError = new ApiErrorDto("Not found", context.Exception.Message);
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
             }
             else if (context.Exception is UnauthorizedAccessException)
             {
                 _logger.LogWarning(context.Exception.Message, properties);
 
-                apiError = new ApiErrorDto("Unauthorized Access");
+                apiError = new ApiErrorDto("Unauthorized Access", context.Exception.Message);
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             }
             else

@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
+using SynchronousShops.Domains.Core.Identity.Entities;
 using System;
 using System.Linq;
 using System.Security.Claims;
 
-namespace SynchronousShops.Libraries.Session
+namespace SynchronousShops.Domains.Core.Session
 {
     public class HttpContextSession : IUserSession
     {
@@ -45,6 +46,8 @@ namespace SynchronousShops.Libraries.Session
                 return $"{_context.HttpContext.Request.Scheme}://{_context.HttpContext.Request.Host.Value}";
             }
         }
+
+        public User CurrentUser { get; set; }
 
         public HttpContextSession(IHttpContextAccessor context)
         {

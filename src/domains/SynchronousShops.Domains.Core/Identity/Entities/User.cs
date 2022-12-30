@@ -50,6 +50,7 @@ namespace SynchronousShops.Domains.Core.Identity.Entities
         public DateTimeOffset? DeletedAt { get; internal set; }
         public Guid? DeletedByUserId { get; internal set; }
         public virtual User DeletedByUser { get; internal set; }
+        public ICollection<UserMetadata> UserMetadata { get; internal set; } = new List<UserMetadata>();
 
         internal User()
         {
@@ -71,10 +72,40 @@ namespace SynchronousShops.Domains.Core.Identity.Entities
             EmailConfirmed = emailConfirmed;
         }
 
-        public void Update(string firstname, string lastname)
+        public User Update(string firstname, string lastname)
         {
             Firstname = firstname;
             Lastname = lastname;
+            return this;
+        }
+
+        internal void SetUserMetadata(UserMetaDataKey key, string value)
+        {
+            var userMetadata = UserMetadata.FirstOrDefault(um => um.Key == key);
+            if (userMetadata == null)
+            {
+                UserMetadata.Add(
+                    new UserMetadata(
+                        this,
+                        key,
+                        value
+                    )
+                );
+            }
+            else
+            {
+                userMetadata.Update(value);
+            }
+        }
+
+        internal string GetUserMetadata(UserMetaDataKey key)
+        {
+            var userMetadata = UserMetadata.FirstOrDefault(um => um.Key == key);
+            if (userMetadata == null)
+            {
+                return null;
+            }
+            return userMetadata.Value;
         }
 
         public bool Equals(IEntity x, IEntity y)

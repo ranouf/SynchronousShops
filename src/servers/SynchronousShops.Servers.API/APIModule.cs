@@ -1,9 +1,9 @@
 ﻿using Autofac;
 using Microsoft.AspNetCore.Http;
 using SynchronousShops.Domains.Core;
+using SynchronousShops.Domains.Core.Session;
 using SynchronousShops.Domains.Infrastructure;
 using SynchronousShops.Libraries.Authentication;
-using SynchronousShops.Libraries.Session;
 using SynchronousShops.Libraries.Settings;
 using SynchronousShops.Servers.API.Filters;
 using SynchronousShops.Servers.API.SignalR.Connection;

@@ -1,11 +1,10 @@
 ﻿using SynchronousShops.Domains.Core;
-using Microsoft.AspNetCore.Authorization;
 
 namespace SynchronousShops.Servers.API.Attributes
 {
     public class AuthorizeAdministratorsAttribute : AuthorizeAttribute
     {
-        public AuthorizeAdministratorsAttribute()
+        public AuthorizeAdministratorsAttribute() : base()
         {
             Roles = Constants.Roles.Administrator;
         }

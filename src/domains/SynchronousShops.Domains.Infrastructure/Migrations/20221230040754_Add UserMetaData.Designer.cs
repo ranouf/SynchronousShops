@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SynchronousShops.Domains.Infrastructure.SqlServer;
 
@@ -11,9 +12,10 @@ using SynchronousShops.Domains.Infrastructure.SqlServer;
 namespace SynchronousShops.Domains.Infrastructure.Migrations
 {
     [DbContext(typeof(SynchronousShopsDbContext))]
-    partial class SynchronousShopsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221230040754_Add UserMetaData")]
+    partial class AddUserMetaData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

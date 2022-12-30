@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SynchronousShops.Domains.Core.Identity;
 using SynchronousShops.Domains.Core.Identity.Entities;
+using SynchronousShops.Domains.Core.Session;
 using SynchronousShops.Libraries.Constants;
 using SynchronousShops.Libraries.Extensions;
-using SynchronousShops.Libraries.Session;
+using SynchronousShops.Servers.API.Attributes;
 using SynchronousShops.Servers.API.Controllers.Identity.Dtos;
 using SynchronousShops.Servers.API.Filters.Dtos;
 using System.Net;
@@ -37,9 +37,9 @@ namespace SynchronousShops.Servers.API.Controllers.Identity
         [Route(Api.V1.Account.Password)]
         public async Task<IActionResult> ChangePaswordAsync([FromBody] ChangePasswordRequestDto dto)
         {
-            var currentUser = await GetCurrentUserAsync();
+            var currentUser = Session.CurrentUser; ;
             Logger.LogInformation($"{nameof(ChangePaswordAsync)}, current:{currentUser.ToJson()}, dto: {dto.ToJson()}");
-            await _userManager.ChangePasswordAsync(await GetCurrentUserAsync(), dto.CurrentPassword, dto.NewPassword);
+            await _userManager.ChangePasswordAsync(currentUser, dto.CurrentPassword, dto.NewPassword);
             return Ok();
         }
 
@@ -52,7 +52,7 @@ namespace SynchronousShops.Servers.API.Controllers.Identity
         [Route(Api.V1.Account.Profile)]
         public async Task<IActionResult> UpdateProfileAsync([FromBody] ChangeProfileRequestDto dto)
         {
-            var currentUser = await GetCurrentUserAsync();
+            var currentUser = Session.CurrentUser;
             Logger.LogInformation($"{nameof(UpdateProfileAsync)}, current:{currentUser.ToJson()}, dto: {dto.ToJson()}");
             currentUser.Update(dto.Firstname, dto.Lastname);
             currentUser = await _userManager.UpdateAsync(currentUser);
@@ -68,7 +68,7 @@ namespace SynchronousShops.Servers.API.Controllers.Identity
         [Route(Api.V1.Account.Profile)]
         public async Task<IActionResult> GetProfileAsync()
         {
-            var currentUser = await GetCurrentUserAsync();
+            var currentUser = Session.CurrentUser;
             Logger.LogInformation($"{nameof(GetProfileAsync)}, current:{currentUser.ToJson()}");
             var result = await _userManager.FindByIdAsync(currentUser.Id);
             return new ObjectResult(Mapper.Map<User, UserDto>(result));

@@ -1,6 +1,6 @@
 ﻿using SynchronousShops.Domains.Core.Identity.Entities;
+using SynchronousShops.Domains.Core.Session;
 using SynchronousShops.Libraries.Extensions;
-using SynchronousShops.Libraries.Session;
 using SynchronousShops.Libraries.SMTP;
 using System;
 using System.Collections.Generic;

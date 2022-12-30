@@ -1,5 +1,4 @@
 ﻿using SynchronousShops.Domains.Core;
-using Microsoft.AspNetCore.Authorization;
 
 namespace SynchronousShops.Servers.API.Attributes
 {

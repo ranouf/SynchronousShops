@@ -1,13 +1,12 @@
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StackExchange.Profiling.Internal;
 using SynchronousShops.Domains.Core.Identity;
 using SynchronousShops.Domains.Core.Items;
 using SynchronousShops.Domains.Core.Items.Entities;
+using SynchronousShops.Domains.Core.Session;
 using SynchronousShops.Libraries.Constants;
-using SynchronousShops.Libraries.Session;
 using SynchronousShops.Servers.API.Controllers.Dtos;
 using SynchronousShops.Servers.API.Controllers.Items.Dtos;
 using System;
@@ -19,7 +18,6 @@ namespace SynchronousShops.Servers.API.Controllers.Items
 {
     [ApiController]
     [Route(Api.V1.Item.Url)]
-    [Authorize]
     public class ItemController : AuthentifiedBaseController
     {
         private readonly IItemManager _itemManager;

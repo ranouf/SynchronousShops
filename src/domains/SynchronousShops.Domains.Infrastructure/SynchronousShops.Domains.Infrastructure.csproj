@@ -14,13 +14,14 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Constants\SynchronousShops.Libraries.Constants.csproj" />
 		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Entities\SynchronousShops.Libraries.Entities.csproj" />
 		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.EntityFramework\SynchronousShops.Libraries.EntityFramework.csproj" />
 		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Extensions\SynchronousShops.Libraries.Extensions.csproj" />
-		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Session\SynchronousShops.Libraries.Session.csproj" />
 		<ProjectReference Include="..\SynchronousShops.Domains.Core\SynchronousShops.Domains.Core.csproj" />
 	</ItemGroup>
 

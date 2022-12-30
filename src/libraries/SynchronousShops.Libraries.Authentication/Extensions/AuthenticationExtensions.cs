@@ -1,12 +1,12 @@
-﻿using SynchronousShops.Libraries.Authentication.Configuration;
-using SynchronousShops.Libraries.Authentication.Helper;
-using SynchronousShops.Libraries.Settings.Extensions;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using SynchronousShops.Libraries.Authentication.Configuration;
+using SynchronousShops.Libraries.Authentication.Helper;
+using SynchronousShops.Libraries.Settings.Extensions;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;

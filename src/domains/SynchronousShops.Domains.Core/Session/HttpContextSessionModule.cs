@@ -1,12 +1,12 @@
 ﻿using Autofac;
 
-namespace SynchronousShops.Libraries.Session
+namespace SynchronousShops.Domains.Core.Session
 {
     public class HttpContextSessionModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<HttpContextSession>().As<IUserSession>();
+            builder.RegisterType<HttpContextSession>().As<IUserSession>().SingleInstance();
         }
     }
 }

@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SynchronousShops.Domains.Core.Identity;
 using SynchronousShops.Domains.Core.Identity.Entities;
+using SynchronousShops.Domains.Core.Session;
 using SynchronousShops.Libraries.Constants;
 using SynchronousShops.Libraries.Extensions;
-using SynchronousShops.Libraries.Session;
 using SynchronousShops.Servers.API.Attributes;
 using SynchronousShops.Servers.API.Controllers.Dtos;
 using SynchronousShops.Servers.API.Controllers.Identity.Dtos;
@@ -43,7 +43,7 @@ namespace SynchronousShops.Servers.API.Controllers.Identity
         [Route("{id:guid}")]
         public async Task<IActionResult> GetUserByIdAsync([FromRoute] Guid id)
         {
-            var currentUser = await GetCurrentUserAsync();
+            var currentUser = Session.CurrentUser;
             Logger.LogInformation($"{nameof(GetUserByIdAsync)}, currentUser:{currentUser.ToJson()}, id:{id}");
             var user = await _userManager.FindByIdAsync(id);
             ValidateUserExists(user, id);
@@ -56,7 +56,7 @@ namespace SynchronousShops.Servers.API.Controllers.Identity
         [AuthorizeAdministrators]
         public async Task<IActionResult> GetUsersAsync([FromQuery] FilterRequestDto dto)
         {
-            var currentUser = await GetCurrentUserAsync();
+            var currentUser = Session.CurrentUser;
             Logger.LogInformation($"{nameof(GetUsersAsync)}, currentUser:{currentUser.ToJson()}, dto:{dto.ToJson()}");
             var result = await _userManager.GetAllAsync(
                 dto.Filter
@@ -73,7 +73,7 @@ namespace SynchronousShops.Servers.API.Controllers.Identity
         [AuthorizeAdministrators]
         public async Task<IActionResult> InviteUserAsync([FromBody] InviteUserRequestDto dto)
         {
-            var currentUser = await GetCurrentUserAsync();
+            var currentUser = Session.CurrentUser;
             Logger.LogInformation($"{nameof(InviteUserAsync)}, currentUser:{currentUser.ToJson()}, dto:{dto.ToJson()}");
 
             var role = await _roleManager.FindByIdAsync(dto.RoleId);
@@ -104,7 +104,7 @@ namespace SynchronousShops.Servers.API.Controllers.Identity
         [Route("{id:guid}")]
         public async Task<IActionResult> UpdateUserAsync([FromRoute] Guid id, [FromBody] UpdateUserRequestDto dto)
         {
-            var currentUser = await GetCurrentUserAsync();
+            var currentUser = Session.CurrentUser;
             Logger.LogInformation($"{nameof(UpdateUserAsync)}, currentUser:{currentUser.ToJson()}, dto:{dto.ToJson()}");
 
             var user = await _userManager.FindByIdAsync(id);
@@ -131,7 +131,7 @@ namespace SynchronousShops.Servers.API.Controllers.Identity
         [Route("{id:guid}")]
         public async Task<IActionResult> DeleteUserAsync([FromRoute] Guid id)
         {
-            var currentUser = await GetCurrentUserAsync();
+            var currentUser = Session.CurrentUser;
             Logger.LogInformation($"{nameof(AllowToLoginAsync)}, currentUser:{currentUser.ToJson()}, id:{id}");
             if (currentUser.Id == id)
             {
@@ -172,7 +172,7 @@ namespace SynchronousShops.Servers.API.Controllers.Identity
         #region Private
         private async Task<IActionResult> AllowToLoginAsync(Guid id, bool allow)
         {
-            var currentUser = await GetCurrentUserAsync();
+            var currentUser = Session.CurrentUser;
             Logger.LogInformation($"{nameof(AllowToLoginAsync)},currentUser:{currentUser.ToJson()}, id:{id}, allow:{allow}");
             if (currentUser.Id == id)
             {

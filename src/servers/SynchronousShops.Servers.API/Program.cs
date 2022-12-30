@@ -14,11 +14,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using StackExchange.Profiling;
 using SynchronousShops.Domains.Core.Identity.Configuration;
 using SynchronousShops.Domains.Core.Identity.Entities;
+using SynchronousShops.Domains.Infrastructure.Shops.Etsy.Configuration;
 using SynchronousShops.Domains.Infrastructure.SqlServer;
 using SynchronousShops.Libraries.Authentication.Extensions;
 using SynchronousShops.Libraries.Constants;
@@ -107,7 +109,9 @@ builder.Services.AddControllers(options =>
     options.Filters.Add(typeof(ValidateModelStateAttribute));
 }).AddNewtonsoftJson(options =>
 {
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+    options.SerializerSettings.MissingMemberHandling = MissingMemberHandling.Ignore;
+    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
     options.SerializerSettings.Converters.Add(new StringEnumConverter());
     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 });
@@ -160,6 +164,7 @@ builder.Services.AddHealthChecks()
     .AddCheck<SmtpHealthCheck>("SMTP")
     .AddCheckSettings<IdentitySettings>()
     .AddCheckSettings<SmtpSettings>()
+    .AddCheckSettings<EtsySettings>()
     .AddDbContextCheck<SynchronousShopsDbContext>("Default");
 
 // Profiling
@@ -181,7 +186,8 @@ builder.Services.AddControllers();
 builder.Services
     .AddOptions()
     .ConfigureAndValidate<IdentitySettings>(builder.Configuration)
-    .ConfigureAndValidate<SmtpSettings>(builder.Configuration);
+    .ConfigureAndValidate<SmtpSettings>(builder.Configuration)
+    .ConfigureAndValidate<EtsySettings>(builder.Configuration);
 
 var app = builder.Build();
 

@@ -10,6 +10,7 @@ namespace SynchronousShops.Domains.Core.Identity
         Task AllowUserToLoginAsync(User user, bool allow);
         Task<User> FindByIdAsync(Guid id, bool includeDeleted = false);
         Task<User> FindByEmailAsync(string email, bool includeDeleted = false);
+        Task<User> FindByEtsyStateAsync(string state, bool includeDeleted = false);
         Task<IList<User>> GetAllAsync(string filter);
         Task<User> InviteAsync(User user, Role role);
         Task<User> CreateAsync(User user, Role role, string password = null);

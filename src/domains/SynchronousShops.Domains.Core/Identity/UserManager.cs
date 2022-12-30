@@ -80,6 +80,23 @@ namespace SynchronousShops.Domains.Core.Identity
             return result;
         }
 
+        public async Task<User> FindByEtsyStateAsync(string etsyState, bool includeDeleted = false)
+        {
+            var result = await FindByAsync(u =>
+                u.UserMetadata.Any(um => um.Key == UserMetaDataKey.EtsyState && um.Value == etsyState),
+                includeDeleted
+            );
+            if (result != null)
+            {
+                _logger.LogInformation($"User found: {result.ToJson()}");
+            }
+            else
+            {
+                _logger.LogInformation($"User not found with EtsyState: {etsyState}");
+            }
+            return result;
+        }
+
         public async Task<IList<User>> GetAllAsync(string filter)
         {
             var query = _userRepository.GetAll()
@@ -241,6 +258,7 @@ namespace SynchronousShops.Domains.Core.Identity
                 .Include(u => u.InvitedByUser)
                 .Include(u => u.UserRoles)
                 .ThenInclude(u => u.Role)
+                .Include(u => u.UserMetadata)
                 .IgnoreQueryFilters(includeDeleted)
                 .FirstOrDefaultAsync(where);
             return result;

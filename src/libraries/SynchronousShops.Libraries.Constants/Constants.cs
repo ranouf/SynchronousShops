@@ -28,13 +28,6 @@
                 public const string Profile = Url + "profile";
             }
 
-            public static class AccountChild
-            {
-                public const string Url = "/api/v1/account-child";
-                public const string Password = Url + "password";
-                public const string Profile = Url + "profile";
-            }
-
             public static class User
             {
                 public const string Url = "/api/v1/user";
@@ -50,6 +43,15 @@
             public static class Item
             {
                 public const string Url = "/api/v1/item";
+            }
+
+            public static class Etsy
+            {
+                public const string Url = "/api/v1/etsy";
+                public const string RequestAuthorizationCodeUrl = Url + "/requestauthorizationcodeurl";
+                public const string Redirect = Url + "/redirect";
+                public const string Me = Url + "/me";
+                public const string Ping = Url + "/ping";
             }
 
             public static class NotificationStatus

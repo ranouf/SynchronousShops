@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SynchronousShops.Domains.Core.Identity;
 using SynchronousShops.Domains.Core.Identity.Entities;
+using SynchronousShops.Domains.Core.Session;
 using SynchronousShops.Libraries.Constants;
 using SynchronousShops.Libraries.Extensions;
-using SynchronousShops.Libraries.Session;
 using SynchronousShops.Servers.API.Attributes;
 using SynchronousShops.Servers.API.Controllers.Identity.Dtos;
 using SynchronousShops.Servers.API.Filters.Dtos;
@@ -37,7 +37,7 @@ namespace SynchronousShops.Servers.API.Controllers.Identity
         [ProducesResponseType(typeof(ApiErrorDto), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> GetAllRolesAsync()
         {
-            var currentUser = await GetCurrentUserAsync();
+            var currentUser = Session.CurrentUser;
             Logger.LogInformation($"{nameof(GetAllRolesAsync)}, currentUser:{currentUser.ToJson()}");
             var result = await _roleManager.GetAllAsync();
             return new ObjectResult(Mapper.Map<IEnumerable<Role>, IEnumerable<RoleDto>>(result));

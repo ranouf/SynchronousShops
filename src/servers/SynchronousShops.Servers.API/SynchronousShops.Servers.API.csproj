@@ -67,7 +67,6 @@
 		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Constants\SynchronousShops.Libraries.Constants.csproj" />
 		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Entities\SynchronousShops.Libraries.Entities.csproj" />
 		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Extensions\SynchronousShops.Libraries.Extensions.csproj" />
-		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Session\SynchronousShops.Libraries.Session.csproj" />
 		<ProjectReference Include="..\..\libraries\SynchronousShops.Libraries.Settings\SynchronousShops.Libraries.Settings.csproj" />
 	</ItemGroup>
 

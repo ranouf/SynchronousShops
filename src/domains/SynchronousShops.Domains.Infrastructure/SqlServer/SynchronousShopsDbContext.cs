@@ -4,11 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SynchronousShops.Domains.Core.Identity.Entities;
 using SynchronousShops.Domains.Core.Items.Entities;
+using SynchronousShops.Domains.Core.Session;
 using SynchronousShops.Libraries.Entities;
 using SynchronousShops.Libraries.Extensions;
-using SynchronousShops.Libraries.Session;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,10 +15,10 @@ namespace SynchronousShops.Domains.Infrastructure.SqlServer
 {
     public class SynchronousShopsDbContext : IdentityDbContext<User, Role, Guid, IdentityUserClaim<Guid>, UserRole, IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
     {
-        public IUserSession _session { get; private set; }
-        protected Guid? UserId { get; set; }
+        private readonly IUserSession _session;
 
         public DbSet<Item> Items { get; set; }
+        public DbSet<UserMetadata> UserMetadata { get; set; }
 
         public SynchronousShopsDbContext() { }
 
@@ -44,6 +43,7 @@ namespace SynchronousShops.Domains.Infrastructure.SqlServer
             base.OnModelCreating(builder);
             PrepareIdentityModel(builder);
             PrepareItemModel(builder);
+            PrepareUserMetaDataModel(builder);
 
             static void PrepareIdentityModel(ModelBuilder builder)
             {
@@ -100,19 +100,18 @@ namespace SynchronousShops.Domains.Infrastructure.SqlServer
                     entity.HasQueryFilter(e => !e.IsDeleted);
                 });
             }
+
+            static void PrepareUserMetaDataModel(ModelBuilder builder)
+            {
+                builder.Entity<UserMetadata>(entity =>
+                {
+                    entity.HasIndex(e => e.Key);
+                });
+            }
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            if (_session.UserId.HasValue)
-            {
-                var user = Users.FirstOrDefault(e => e.Id == _session.UserId.Value);
-                if (user != null)
-                {
-                    UserId = user.Id;
-                }
-            }
-
             AddTimestamps();
             return base.SaveChangesAsync(cancellationToken);
         }
@@ -156,7 +155,7 @@ namespace SynchronousShops.Domains.Infrastructure.SqlServer
 
                 if (entry.Entity.TryGetPropertyValue("CreatedByUserId", out Guid? createdByUserId) && !createdByUserId.HasValue)
                 {
-                    entry.Entity.SetPropertyValue("CreatedByUserId", UserId);
+                    entry.Entity.SetPropertyValue("CreatedByUserId", _session.UserId);
                 }
             }
         }
@@ -166,7 +165,7 @@ namespace SynchronousShops.Domains.Infrastructure.SqlServer
             if (entry.Entity.IsAssignableToGenericType(typeof(IModificationAudited<>)))
             {
                 entry.Entity.SetPropertyValue<DateTimeOffset?>("UpdatedAt", DateTime.Now);
-                entry.Entity.SetPropertyValue("UpdatedByUserId", UserId);
+                entry.Entity.SetPropertyValue("UpdatedByUserId", _session.UserId);
             }
         }
 
@@ -190,7 +189,7 @@ namespace SynchronousShops.Domains.Infrastructure.SqlServer
 
                 if (entry.Entity.TryGetPropertyValue("DeletedByUserId", out Guid? deletedByUserId) && !deletedByUserId.HasValue)
                 {
-                    entry.Entity.SetPropertyValue("DeletedByUserId", UserId);
+                    entry.Entity.SetPropertyValue("DeletedByUserId", _session.UserId);
                 }
             }
         }
